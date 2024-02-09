@@ -13,8 +13,8 @@ def filter_datum(fields: List[str], redaction: str,
     search for occurrences of specified fields in the log
     message and replace them with the specified redaction.
     """
-    return(re.sub(rf"({'|'.join(fields)})=.*?{separator}",
-           rf"\1={redaction}{separator}", message))
+    return (re.sub(rf"({'|'.join(fields)})=.*?{separator}",
+            rf"\1={redaction}{separator}", message))
 
 
 class RedactingFormatter(logging.Formatter):
