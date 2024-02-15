@@ -3,6 +3,8 @@
 
 from api.v1.auth.auth import Auth
 import base64
+import binascii
+
 
 class BasicAuth(Auth):
     """Represents the class Basic Auth"""
@@ -23,7 +25,7 @@ class BasicAuth(Auth):
                 base64_authorization_header, str):
             return None
         try:
-            return base64.b64decode(base64_authorization_header.encode())\
-                    .decode('utf-8')
-        except (base64.binascii.Error, UnicodeDecodeError):
+            decoded_bytes = base64.b64decode(base64_authorization_header)
+            return decoded_bytes.decode('utf-8')
+        except binascii.Error as e:
             return None
