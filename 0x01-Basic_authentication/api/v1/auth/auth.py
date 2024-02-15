@@ -9,7 +9,7 @@ class Auth:
     """represents the class authentication"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """function auth"""
-        if path is None or excluded_paths is None or len(excluded_paths)==0:
+        if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
         if path[-1] != '/':
             path += '/'
@@ -17,13 +17,10 @@ class Auth:
             return False
         return True
 
-
     def authorization_header(self, request=None) -> str:
         """function authentication header"""
         return None
 
-
     def current_user(self, request=None) -> TypeVar("User"):
         """function current user"""
         return None
-
