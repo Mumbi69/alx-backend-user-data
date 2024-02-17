@@ -27,14 +27,16 @@ elif os.getenv("AUTH_TYPE") == "auth":
 def before_request_func():
     """doc doc doc"""
     if auth is None:
-        return
+        request.current_user = auth.current_user(request)
     if not auth.require_auth(request.path, ['/api/v1/status/',
                                             '/api/v1/unauthorized/',
                                             '/api/v1/forbidden/']):
         return
     if auth.authorization_header(request) is None:
         abort(401)
-    request.current_user = auth.current_user(request)
+    if auth.current_user(request) is None:
+        abort(403)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
