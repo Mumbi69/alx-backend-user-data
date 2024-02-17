@@ -26,16 +26,18 @@ elif os.getenv("AUTH_TYPE") == "auth":
 @app.before_request
 def before_request_func():
     """doc doc doc"""
-    if auth is None:
+    if auth:
         request.current_user = auth.current_user(request)
-    if not auth.require_auth(request.path, ['/api/v1/status/',
+        if auth.require_auth(request.path, ['/api/v1/status/',
                                             '/api/v1/unauthorized/',
-                                            '/api/v1/forbidden/']):
-        return
-    if auth.authorization_header(request) is None:
-        abort(401)
-    if auth.current_user(request) is None:
-        abort(403)
+                                            '/api/v1/forbidden/',
+                                            '/api/v1/auth_session/login/']):
+            if not auth.authorization_header(request) \
+                    and not auth.session_cookie(request):
+                return abort(401)
+            if not auth.current_user(request):
+                return abort(403)
+    return
 
 
 @app.errorhandler(404)
