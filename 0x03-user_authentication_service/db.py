@@ -38,7 +38,8 @@ class DB:
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """This function finds a user in the database based on the specified criteria."""
+        """This function finds a user in the database based
+        on the specified criteria."""
         try:
             user = self._session.query(User).filter_by(**kwargs).one()
         except NoResultFound:
@@ -48,7 +49,8 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs: Dict[str, str]):
-        """This function updates a user in the database based on the specified criteria."""
+        """This function updates a user in the database
+        based on the specified criteria."""
         user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             if not hasattr(User, key):
